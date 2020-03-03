@@ -8,3 +8,6 @@ To do :
 1. Generate GT (counting and density map) from the dataset
 2. Create a Pytorch DataLoader
 3. Code the CSRNet
+4. Generate more cells-images for the dataset :
+  - https://www.ncbi.nlm.nih.gov/pubmed/17649914
+  - http://www.cs.tut.fi/sgn/csb/simcep/tool.html
