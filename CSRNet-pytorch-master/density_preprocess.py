@@ -4,8 +4,23 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 from scipy.stats import kde
+from tqdm import tqdm
 
+def get_total_cell_counts(path):
+    counts = []
+    for img_path in (glob.glob(os.path.join(path, '*dots.png'))):
+        count = 0
+        img = Image.open(img_path)
 
+        width, height = img.size
+        for i in range (width):
+            for j in range (height):
+                if (img.getpixel((i,j)) != (0,0, 0)): 
+                    count +=1
+        
+        counts.append(count)
+
+    return count
 
 def get_cell_coordinates(img_path):
 
@@ -53,34 +68,33 @@ def make_density_map(X, Y, path):
     zi = k(np.vstack([xi.flatten(), yi.flatten()]))
 
     # plot aesthetics
-
-    f, axs = plt.subplots(figsize=(5,5))
-    plt.title('Density map for {} cells'.format(count))
+    width, height = 256, 256
+    fig = plt.figure()
+    fig.set_size_inches(width/height, 1, forward=False)
+    ax = plt.Axes(fig, [0., 0., 1., 1.])
+    ax.set_axis_off()
+    fig.add_axes(ax)
     plt.pcolormesh(xi, yi, zi.reshape(xi.shape))
-    axs.set_ylim(255, 0) #inverting y axis
-
-    fig_name = plt.savefig(path)
-
+    ax.set_ylim(255, 0)
+    plt.savefig(path, dpi = height) 
 
 
 
 def main():
-    data_path = '../Dataset/'
-
-    dots_data_paths = []
-
-    for img_path in glob.glob(os.path.join(data_path, '*dots.png')): #we are preprocessing all the images
+    data_path = '../Dataset/Dots'
+    save_path = '../Dataset/Density/'
+    for img_path in tqdm(glob.glob(os.path.join(data_path, '*dots.png'))): #we are preprocessing all the images
         
         img_num = img_path[11:14] #get the image number
 
         img_name = img_num + 'density.jpg'
-        save_path = os.path.join(data_path, img_name) #creating the path where we save our density map image
-
+        im_save_path = os.path.join(save_path, img_name) #creating the path where we save our density map image
+        # print('image being saved at {}'.format(im_save_path))
 
         X,Y, count = get_cell_coordinates(img_path)
 
-        make_density_map(X, Y, save_path)
+        make_density_map(X, Y, im_save_path)
         
 
-if (__name__ == __main__):
-    main()
+if __name__ == '__main__':
+    main()   

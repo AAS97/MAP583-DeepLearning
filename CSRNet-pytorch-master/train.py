@@ -54,11 +54,13 @@ def main():
     args.workers = 4
     args.seed = time.time()
     args.print_freq = 30
-    with open(args.train_json, 'r') as outfile:        
-        train_list = json.load(outfile)
-    with open(args.test_json, 'r') as outfile:       
-        val_list = json.load(outfile)
+    # with open(args.train_json, 'r') as outfile:        
+    #     train_list = json.load(outfile)
+    # with open(args.test_json, 'r') as outfile:       
+    #     val_list = json.load(outfile)
     
+    path = '../Density Data/'
+
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
     torch.cuda.manual_seed(args.seed)
     
@@ -89,7 +91,7 @@ def main():
         
         adjust_learning_rate(optimizer, epoch)
         
-        train(train_list, model, criterion, optimizer, epoch)
+        train(path, model, criterion, optimizer, epoch)
         prec1 = validate(val_list, model, criterion)
         
         is_best = prec1 < best_prec1
@@ -104,7 +106,7 @@ def main():
             'optimizer' : optimizer.state_dict(),
         }, is_best,args.task)
 
-def train(train_list, model, criterion, optimizer, epoch):
+def train(path, model, criterion, optimizer, epoch):
     
     losses = AverageMeter()
     batch_time = AverageMeter()
@@ -112,7 +114,7 @@ def train(train_list, model, criterion, optimizer, epoch):
     
     
     train_loader = torch.utils.data.DataLoader(
-        dataset.listDataset(train_list,
+        torchvision.datasets.ImageFolder(path,
                        shuffle=True,
                        transform=transforms.Compose([
                        transforms.ToTensor(),transforms.Normalize(mean=[0.485, 0.456, 0.406],
