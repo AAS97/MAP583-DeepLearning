@@ -72,7 +72,7 @@ def main():
 
     model = CSRNet()
 
-    summary(model, (3, 256, 256))
+    #summary(model, (3, 256, 256))
 
     model = model.to(device)
 
