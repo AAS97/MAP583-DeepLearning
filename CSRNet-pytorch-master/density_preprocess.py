@@ -16,17 +16,17 @@ def get_total_cell_counts(path):
         img = Image.open(img_path)
 
         width, height = img.size
-        for i in range (width):
-            for j in range (height):
-                if (img.getpixel((i,j)) != (0,0, 0)): 
-                    count +=1
-        
+        for i in range(width):
+            for j in range(height):
+                if (img.getpixel((i, j)) != (0, 0, 0)):
+                    count += 1
+
         counts.append(count)
 
     return counts
 
-def get_cell_coordinates(img_path):
 
+def get_cell_coordinates(img_path):
     """
     Function that computes coordinates of points in a ###dots.jpg file and counts them
 
@@ -36,20 +36,20 @@ def get_cell_coordinates(img_path):
             count: int, number of points
     """
 
-    X,Y = [], []
-    
+    X, Y = [], []
+
     img = Image.open(img_path)
 
     width, height = img.size
-    for i in range (width):
-        for j in range (height):
-            if (img.getpixel((i,j)) != (0,0, 0)):
-                X.append(i), Y.append(j) #get coordinates of cells in the image
-                
-    count = len(X)#number of cells in the image 
+    for i in range(width):
+        for j in range(height):
+            if (img.getpixel((i, j)) != (0, 0, 0)):
+                # get coordinates of cells in the image
+                X.append(i), Y.append(j)
 
-    return X,Y, count  
+    count = len(X)  # number of cells in the image
 
+    return X, Y, count
 
 
 def make_density_map(X, Y, path):
@@ -58,15 +58,15 @@ def make_density_map(X, Y, path):
 
     Input: X,Y: lists of coordinates
             path: str, path where you want to save image
-    
+
     Output: none
     """
 
     count = len(X)
 
     # creating the density map using a gaussian kde
-    nbins=100
-    k = kde.gaussian_kde([X,Y])
+    nbins = 100
+    k = kde.gaussian_kde([X, Y])
     xi, yi = np.mgrid[min(X):max(X):nbins*1j, min(Y):max(Y):nbins*1j]
     zi = k(np.vstack([xi.flatten(), yi.flatten()]))
 
@@ -79,44 +79,40 @@ def make_density_map(X, Y, path):
     fig.add_axes(ax)
     plt.pcolormesh(xi, yi, zi.reshape(xi.shape))
     ax.set_ylim(255, 0)
-    plt.savefig(path, dpi = height) 
-
+    plt.savefig(path, dpi=height)
 
 
 def main():
     data_path = '../Dataset/Dots'
     save_path = '../Dataset/Density/'
-    for img_path in tqdm(glob.glob(os.path.join(data_path, '*dots.png'))): #we are preprocessing all the images
-        
-        img_num = img_path[11:14] #get the image number
+    # we are preprocessing all the images
+    for img_path in tqdm(glob.glob(os.path.join(data_path, '*dots.png'))):
+
+        img_num = img_path[11:14]  # get the image number
 
         img_name = img_num + 'density.jpg'
-        im_save_path = os.path.join(save_path, img_name) #creating the path where we save our density map image
+        # creating the path where we save our density map image
+        im_save_path = os.path.join(save_path, img_name)
         # print('image being saved at {}'.format(im_save_path))
 
-        X,Y, count = get_cell_coordinates(img_path)
+        X, Y, count = get_cell_coordinates(img_path)
 
         make_density_map(X, Y, im_save_path)
-        
 
 
-
- 
- 
- 
 def json_writer():
     path = '../Dataset/Dots/'
     paths = []
     for img_path in (glob.glob(os.path.join(path, '*dots.png'))):
         paths.append(os.path.abspath(img_path))
-    
+
     dots_path_store = '../'
 
-    with open('../Dots.json', 'w') as f:
+    with open('./Dots.json', 'w') as f:
         json.dump(paths, f)
 
-    
     # return paths
 
+
 if __name__ == '__main__':
-    main()   
+    main()
