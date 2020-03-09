@@ -32,7 +32,7 @@ parser.add_argument('--pre', '-p', metavar='PRETRAINED', default=None, type=str,
 parser.add_argument('gpu', metavar='GPU', type=str,
                     help='GPU id to use.')
 
-parser.add_argument('task', metavar='TASK', type=str,
+parser.add_argument('task', metavar='TASK', default=None, type=str,
                     help='task id to use.')
 
 
