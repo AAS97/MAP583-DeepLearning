@@ -7,6 +7,7 @@ from PIL import Image
 from image import *
 import torchvision.transforms.functional as F
 import matplotlib.pyplot as plt
+from  torchvision import transforms
 
 import pandas as pd
 
@@ -96,9 +97,10 @@ class DensityDataset:
 
         # print(f'cell {cell_img_path}, root : {self.root}')
         # print(f'cell path : {os.path.join(self.root, cell_img_path)}')
-        cell_img = plt.imread(os.path.join(self.root, cell_img_path))
+        cell_img = Image.open(os.path.join(self.root, cell_img_path))
         # print(f'density path : {os.path.join(self.root, density_img_path)}')
-        density_img = plt.imread(os.path.join(self.root, density_img_path))
+        density_img = Image.open(os.path.join(self.root, density_img_path))
+        density_img = transforms.functional.to_grayscale(density_img)
 
         # cell_img_tensor = torch.tensor(cell_img, dtype=torch.float)
         # density_img_tensor = torch.tensor(density_img, dtype=torch.float)
