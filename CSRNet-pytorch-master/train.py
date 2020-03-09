@@ -100,7 +100,7 @@ def main():
         adjust_learning_rate(optimizer, epoch)
 
         train(csv_train_path, model, criterion, optimizer, epoch)
-        prec1 = validate(val_list, model, criterion)
+        prec1 = validate(csv_test_path, model, criterion)
 
         is_best = prec1 < best_prec1
         best_prec1 = min(prec1, best_prec1)
@@ -147,9 +147,9 @@ def train(csv_path, model, criterion, optimizer, epoch):
 
         img = img.to(device)
         img = Variable(img)
-        print(f'Img shape {img.shape}')
+        # print(f'Img shape {img.shape}')
         output = model(img)
-        print(f"output dim {output.shape} ")
+        # print(f"output dim {output.shape} ")
         target = target.type(torch.FloatTensor).unsqueeze(0).to(device)
         target = Variable(target)
 
