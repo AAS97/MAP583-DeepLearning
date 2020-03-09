@@ -94,14 +94,14 @@ def main():
                   .format(args.pre, checkpoint['epoch']))
         else:
             print("=> no checkpoint found at '{}'".format(args.pre))
-
+    precs = []
     for epoch in range(args.start_epoch, args.epochs):
 
         adjust_learning_rate(optimizer, epoch)
 
         train(csv_train_path, model, criterion, optimizer, epoch)
         prec1 = validate(csv_test_path, model, criterion)
-
+        precs.append(prec1)
         is_best = prec1 < best_prec1
         best_prec1 = min(prec1, best_prec1)
         print(' * best MAE {mae:.3f} '
@@ -112,6 +112,7 @@ def main():
             'state_dict': model.state_dict(),
             'best_prec1': best_prec1,
             'optimizer': optimizer.state_dict(),
+            'MAE_history' = precs
         }, is_best, args.task)
 
 
