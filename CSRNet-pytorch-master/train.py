@@ -51,8 +51,8 @@ def main():
     args.decay = 5*1e-4
     args.start_epoch = 0
     args.epochs = 100
-    args.steps = [-1, 1, 100, 150]
-    args.scales = [1, 1, 1, 1]
+    args.steps = [-1, 20, 40, 60]
+    args.scales = [1, 0.1, 0.1, 0.1]
     args.workers = 4
     args.seed = time.time()
     args.print_freq = 30
