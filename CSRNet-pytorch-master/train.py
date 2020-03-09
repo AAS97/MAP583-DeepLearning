@@ -125,20 +125,8 @@ def train(csv_path, model, criterion, optimizer, epoch):
     batch_time = AverageMeter()
     data_time = AverageMeter()
 
-    # train_loader = torch.utils.data.DataLoader(
-    #     make_dataset.DensityDataset(csv_path,
-    #                                 shuffle=True,
-    #                                 transform=transforms.Compose([
-    #                                     transforms.ToTensor(),
-    #                                 ]),
-    #                                 train=True,
-    #                                 seen=model.seen,
-    #                                 batch_size=args.batch_size,
-    #                                 num_workers=args.workers),
-    #     batch_size=args.batch_size)
-
     train_loader = torch.utils.data.DataLoader(
-        make_dataset.CountDataset(csv_path,
+        make_dataset.DensityDataset(csv_path,
                                     shuffle=True,
                                     transform=transforms.Compose([
                                         transforms.ToTensor(),
@@ -148,6 +136,18 @@ def train(csv_path, model, criterion, optimizer, epoch):
                                     batch_size=args.batch_size,
                                     num_workers=args.workers),
         batch_size=args.batch_size)
+
+    # train_loader = torch.utils.data.DataLoader(
+    #     make_dataset.CountDataset(csv_path,
+    #                                 shuffle=True,
+    #                                 transform=transforms.Compose([
+    #                                     transforms.ToTensor(),
+    #                                 ]),
+    #                                 train=True,
+    #                                 seen=model.seen,
+    #                                 batch_size=args.batch_size,
+    #                                 num_workers=args.workers),
+    #     batch_size=args.batch_size)
 
 
     print('epoch %d, processed %d samples, lr %.10f' %
@@ -163,7 +163,7 @@ def train(csv_path, model, criterion, optimizer, epoch):
         img = Variable(img)
         # print(f'Img shape {img.shape}')
         output = model(img)
-        print(f"output dim {output.shape} ")
+        # print(f"output dim {output.shape} ")
         target = target.type(torch.FloatTensor).unsqueeze(0).to(device)
         target = Variable(target)
 
@@ -193,21 +193,21 @@ def validate(csv_path, model, criterion):
     device = torch.device(
         'cuda') if torch.cuda.is_available() else torch.device('cpu')
 
-    # test_loader = torch.utils.data.DataLoader(
-    #     make_dataset.DensityDataset(csv_path,
-    #                                 shuffle=False,
-    #                                 transform=transforms.Compose([
-    #                                     transforms.ToTensor(),
-    #                                 ]),  train=False),
-    #     batch_size=args.batch_size)
-
     test_loader = torch.utils.data.DataLoader(
-        make_dataset.CountDataset(csv_path,
+        make_dataset.DensityDataset(csv_path,
                                     shuffle=False,
                                     transform=transforms.Compose([
                                         transforms.ToTensor(),
                                     ]),  train=False),
         batch_size=args.batch_size)
+
+    # test_loader = torch.utils.data.DataLoader(
+    #     make_dataset.CountDataset(csv_path,
+    #                                 shuffle=False,
+    #                                 transform=transforms.Compose([
+    #                                     transforms.ToTensor(),
+    #                                 ]),  train=False),
+    #     batch_size=args.batch_size)
 
 
     model.eval()
