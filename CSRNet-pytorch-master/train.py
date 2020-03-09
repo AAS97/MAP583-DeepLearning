@@ -6,6 +6,7 @@ import warnings
 from model import CSRNet
 import make_dataset
 from utils import save_checkpoint
+from torchsummary import summary
 
 import torch
 import torch.nn as nn
@@ -71,6 +72,8 @@ def main():
 
     model = CSRNet()
 
+    summary(model, (3, 256, 256))
+
     model = model.to(device)
 
     criterion = nn.MSELoss(size_average=False).to(device)
@@ -114,6 +117,9 @@ def main():
 
 def train(csv_path, model, criterion, optimizer, epoch):
 
+    device = torch.device(
+        'cuda') if torch.cuda.is_available() else torch.device('cpu')
+
     losses = AverageMeter()
     batch_time = AverageMeter()
     data_time = AverageMeter()
@@ -141,8 +147,9 @@ def train(csv_path, model, criterion, optimizer, epoch):
 
         img = img.to(device)
         img = Variable(img)
+        print(f'Img shape {img.shape}')
         output = model(img)
-
+        print(f"output dim {output.shape} ")
         target = target.type(torch.FloatTensor).unsqueeze(0).to(device)
         target = Variable(target)
 
@@ -168,6 +175,10 @@ def train(csv_path, model, criterion, optimizer, epoch):
 
 def validate(csv_path, model, criterion):
     print('begin test')
+
+    device = torch.device(
+        'cuda') if torch.cuda.is_available() else torch.device('cpu')
+
     test_loader = torch.utils.data.DataLoader(
         make_dataset.DensityDataset(csv_path,
                                     shuffle=False,

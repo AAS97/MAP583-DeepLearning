@@ -48,14 +48,14 @@ class DotsDataset:
         cell_img = plt.imread(os.path.join(self.root, cell_img_path))
         dots_img = plt.imread(os.path.join(self.root, dots_img_path))
 
-        cell_img_tensor = torch.tensor(cell_img, dtype=torch.float)
-        dots_img_tensor = torch.tensor(dots_img, dtype=torch.float)
+        # cell_img_tensor = torch.tensor(cell_img, dtype=torch.float)
+        # dots_img_tensor = torch.tensor(dots_img, dtype=torch.float)
 
         # print(gt_dmap_tensor.sum())
 
         if self.transform is not None:
-            cell_img_tensor = self.transform(cell_img_tensor)
-            dots_img_tensor = self.transform(dots_img_tensor)
+            cell_img_tensor = self.transform(cell_img)
+            dots_img_tensor = self.transform(dots_img)
 
         return cell_img_tensor, dots_img_tensor
 
@@ -100,14 +100,14 @@ class DensityDataset:
         # print(f'density path : {os.path.join(self.root, density_img_path)}')
         density_img = plt.imread(os.path.join(self.root, density_img_path))
 
-        cell_img_tensor = torch.tensor(cell_img, dtype=torch.float)
-        density_img_tensor = torch.tensor(density_img, dtype=torch.float)
+        # cell_img_tensor = torch.tensor(cell_img, dtype=torch.float)
+        # density_img_tensor = torch.tensor(density_img, dtype=torch.float)
 
         # print(gt_dmap_tensor.sum())
 
         if self.transform is not None:
-            cell_img_tensor = self.transform(cell_img_tensor)
-            density_img_tensor = self.transform(density_img_tensor)
+            cell_img_tensor = self.transform(cell_img)
+            density_img_tensor = self.transform(density_img)
 
         return cell_img_tensor, density_img_tensor
 
@@ -146,11 +146,11 @@ class CountDataset:
 
         cell_img = plt.imread(os.path.join(self.root, cell_img_path))
 
-        cell_img_tensor = torch.tensor(cell_img, dtype=torch.float)
+        # cell_img_tensor = torch.tensor(cell_img, dtype=torch.float)
 
         # print(gt_dmap_tensor.sum())
 
         if self.transform is not None:
-            cell_img_tensor = self.transform(cell_img_tensor)
+            cell_img_tensor = self.transform(cell_img)
 
         return cell_img_tensor, counts

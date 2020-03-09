@@ -89,16 +89,45 @@ def main():
     for img_path in tqdm(glob.glob(os.path.join(data_path, '*dots.png'))):
         img_num = img_path[16:19]  # get the image number
 
+<<<<<<< HEAD
         img_name = img_num + 'density.jpg'
         im_save_path = os.path.join(save_path, img_name) #creating the path where we save our density map image
         # print('image being saved at {}'.format(im_save_path))
+=======
+        img_num = img_path[11:14]  # get the image number
 
-        X, Y, count = get_cell_coordinates(img_path)
+>>>>>>> eff3c63c239521b6835aea2e271db508471e8a7f
 
+<< << << < HEAD
+img_name = img_num + 'density.png'
+# creating the path where we save our density map image
+im_save_path = os.path.join(save_path, img_name)
+== == == =
+img_name = img_num + 'density.jpg'
+# creating the path where we save our density map image
+im_save_path = os.path.join(save_path, img_name)
+>>>>>> > be23f96ea8a56090c2f0731a5eb587a25ca3efc3
+# print('image being saved at {}'.format(im_save_path))
+
+<<<<<<< HEAD
         make_density_map(X, Y, im_save_path)
         
  
  
+=======
+X, Y, count = get_cell_coordinates(img_path)
+
+make_density_map(X, Y, im_save_path)
+<< << << < HEAD
+
+
+== == == =
+
+
+>>>>>> > be23f96ea8a56090c2f0731a5eb587a25ca3efc3
+
+
+>>>>>>> eff3c63c239521b6835aea2e271db508471e8a7f
 def json_writer():
     path = '../Dataset/Density/'
     paths = []
@@ -107,10 +136,20 @@ def json_writer():
 
     dots_path_store = '../'
 
+<<<<<<< HEAD
     with open('../Density.json', 'w') as f:
         json.dump(paths, f)
+=======
+>>>>>>> eff3c63c239521b6835aea2e271db508471e8a7f
 
-    # return paths
+<< << << < HEAD
+with open('../Density.json', 'w') as f:
+== == == =
+with open('./Dots.json', 'w') as f:
+>>>>>> > be23f96ea8a56090c2f0731a5eb587a25ca3efc3
+json.dump(paths, f)
+
+# return paths
 
 
 if __name__ == '__main__':
