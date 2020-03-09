@@ -8,7 +8,7 @@ from image import *
 import torchvision.transforms.functional as F
 import matplotlib.pyplot as plt
 from  torchvision import transforms
-
+import scipy.ndimage
 import pandas as pd
 
 
@@ -110,7 +110,7 @@ class DensityDataset:
         if self.transform is not None:
             cell_img_tensor = self.transform(cell_img)
             density_img_tensor = self.transform(density_img)
-
+        
         return cell_img_tensor, density_img_tensor
 
 
