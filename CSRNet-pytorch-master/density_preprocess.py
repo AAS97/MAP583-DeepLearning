@@ -5,6 +5,9 @@ import numpy as np
 from PIL import Image
 from scipy.stats import kde
 from tqdm import tqdm
+import json
+from pathlib import Path
+
 
 def get_total_cell_counts(path):
     counts = []
@@ -20,7 +23,7 @@ def get_total_cell_counts(path):
         
         counts.append(count)
 
-    return count
+    return counts
 
 def get_cell_coordinates(img_path):
 
@@ -95,6 +98,25 @@ def main():
 
         make_density_map(X, Y, im_save_path)
         
+
+
+
+ 
+ 
+ 
+def json_writer():
+    path = '../Dataset/Dots/'
+    paths = []
+    for img_path in (glob.glob(os.path.join(path, '*dots.png'))):
+        paths.append(os.path.abspath(img_path))
+    
+    dots_path_store = '../'
+
+    with open('../Dots.json', 'w') as f:
+        json.dump(paths, f)
+
+    
+    # return paths
 
 if __name__ == '__main__':
     main()   
