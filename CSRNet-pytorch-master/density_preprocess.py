@@ -90,7 +90,7 @@ def main():
         
         img_num = img_path[11:14] #get the image number
 
-        img_name = img_num + 'density.jpg'
+        img_name = img_num + 'density.png'
         im_save_path = os.path.join(save_path, img_name) #creating the path where we save our density map image
         # print('image being saved at {}'.format(im_save_path))
 
@@ -98,21 +98,17 @@ def main():
 
         make_density_map(X, Y, im_save_path)
         
-
-
-
- 
  
  
 def json_writer():
-    path = '../Dataset/Dots/'
+    path = '../Dataset/Density/'
     paths = []
-    for img_path in (glob.glob(os.path.join(path, '*dots.png'))):
+    for img_path in (glob.glob(os.path.join(path, '*density.png'))):
         paths.append(os.path.abspath(img_path))
     
     dots_path_store = '../'
 
-    with open('../Dots.json', 'w') as f:
+    with open('../Density.json', 'w') as f:
         json.dump(paths, f)
 
     

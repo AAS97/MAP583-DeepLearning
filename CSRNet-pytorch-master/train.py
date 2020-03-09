@@ -4,7 +4,7 @@ import os
 import warnings
 
 from model import CSRNet
-
+import make_dataset
 from utils import save_checkpoint
 
 import torch
@@ -21,10 +21,10 @@ import time
 
 parser = argparse.ArgumentParser(description='PyTorch CSRNet')
 
-parser.add_argument('train_json', metavar='TRAIN',
-                    help='path to train json')
-parser.add_argument('test_json', metavar='TEST',
-                    help='path to test json')
+parser.add_argument('train_csv', metavar='TRAIN',
+                    help='path to train csv')
+parser.add_argument('test_csv', metavar='TEST',
+                    help='path to csv json')
 
 parser.add_argument('--pre', '-p', metavar='PRETRAINED', default=None,type=str,
                     help='path to the pretrained model')
@@ -59,7 +59,9 @@ def main():
     # with open(args.test_json, 'r') as outfile:       
     #     val_list = json.load(outfile)
     
-    path = '../Density Data/'
+    csv_train_path = args.train_csv
+    csv_test_path = args.test_csv
+
 
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
     torch.cuda.manual_seed(args.seed)
@@ -91,7 +93,7 @@ def main():
         
         adjust_learning_rate(optimizer, epoch)
         
-        train(path, model, criterion, optimizer, epoch)
+        train(csv_train_path, model, criterion, optimizer, epoch)
         prec1 = validate(val_list, model, criterion)
         
         is_best = prec1 < best_prec1
@@ -106,7 +108,7 @@ def main():
             'optimizer' : optimizer.state_dict(),
         }, is_best,args.task)
 
-def train(path, model, criterion, optimizer, epoch):
+def train(csv_path, model, criterion, optimizer, epoch):
     
     losses = AverageMeter()
     batch_time = AverageMeter()
@@ -114,7 +116,7 @@ def train(path, model, criterion, optimizer, epoch):
     
     
     train_loader = torch.utils.data.DataLoader(
-        torchvision.datasets.ImageFolder(path,
+        make_dataset.DensityDataset(csv_path,
                        shuffle=True,
                        transform=transforms.Compose([
                        transforms.ToTensor(),transforms.Normalize(mean=[0.485, 0.456, 0.406],
@@ -136,9 +138,6 @@ def train(path, model, criterion, optimizer, epoch):
         img = img.cuda()
         img = Variable(img)
         output = model(img)
-        
-        
-        
         
         target = target.type(torch.FloatTensor).unsqueeze(0).cuda()
         target = Variable(target)
@@ -163,10 +162,10 @@ def train(path, model, criterion, optimizer, epoch):
                    epoch, i, len(train_loader), batch_time=batch_time,
                    data_time=data_time, loss=losses))
     
-def validate(val_list, model, criterion):
+def validate(csv_path, model, criterion):
     print ('begin test')
     test_loader = torch.utils.data.DataLoader(
-    dataset.listDataset(val_list,
+    make_dataset.DensityDataset(csv_path,
                    shuffle=False,
                    transform=transforms.Compose([
                        transforms.ToTensor(),transforms.Normalize(mean=[0.485, 0.456, 0.406],
