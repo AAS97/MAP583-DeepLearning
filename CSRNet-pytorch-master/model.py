@@ -5,7 +5,7 @@ from utils import save_net, load_net
 
 
 class CSRNet(nn.Module):
-    def __init__(self, load_weights=False):
+    def __init__(self, load_weights=True):  # False by default to load VGG
         super(CSRNet, self).__init__()
         self.seen = 0
         # int for each Conv Layer, M for each MaxPool Layer
@@ -23,7 +23,9 @@ class CSRNet(nn.Module):
             self._initialize_weights()
             for i in range(len(self.frontend.state_dict().items())):
                 # self.frontend.state_dict().items()[i][1].data[:] = mod.state_dict().items()[i][1].data[:]
-                list(self.frontend.state_dict().items())[i][1].data[:] = list(mod.state_dict().items())[i][1].data[:]
+                list(self.frontend.state_dict().items())[i][1].data[:] = list(
+                    mod.state_dict().items())[i][1].data[:]
+
     def forward(self, x):
         x = self.frontend(x)
         x = self.backend(x)
