@@ -147,6 +147,7 @@ def train(csv_path, model, criterion, optimizer, epoch):
 
         img = img.to(device)
         img = Variable(img)
+        print(f'Img shape {img.shape}')
         output = model(img)
         print(f"output dim {output.shape} ")
         target = target.type(torch.FloatTensor).unsqueeze(0).to(device)

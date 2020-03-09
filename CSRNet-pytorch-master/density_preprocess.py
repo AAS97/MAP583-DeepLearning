@@ -71,7 +71,7 @@ def make_density_map(X, Y, path):
     zi = k(np.vstack([xi.flatten(), yi.flatten()]))
 
     # plot aesthetics
-    width, height = 256, 256
+    width, height = 32, 32
     fig = plt.figure()
     fig.set_size_inches(width/height, 1, forward=False)
     ax = plt.Axes(fig, [0., 0., 1., 1.])
@@ -90,27 +90,30 @@ def main():
 
         img_num = img_path[11:14]  # get the image number
 
-<<<<<<< HEAD
-        img_name = img_num + 'density.png'
-        im_save_path = os.path.join(save_path, img_name) #creating the path where we save our density map image
-=======
-        img_name = img_num + 'density.jpg'
-        # creating the path where we save our density map image
-        im_save_path = os.path.join(save_path, img_name)
->>>>>>> be23f96ea8a56090c2f0731a5eb587a25ca3efc3
-        # print('image being saved at {}'.format(im_save_path))
 
-        X, Y, count = get_cell_coordinates(img_path)
+<< << << < HEAD
+img_name = img_num + 'density.png'
+# creating the path where we save our density map image
+im_save_path = os.path.join(save_path, img_name)
+== == == =
+img_name = img_num + 'density.jpg'
+# creating the path where we save our density map image
+im_save_path = os.path.join(save_path, img_name)
+>>>>>> > be23f96ea8a56090c2f0731a5eb587a25ca3efc3
+# print('image being saved at {}'.format(im_save_path))
 
-        make_density_map(X, Y, im_save_path)
-<<<<<<< HEAD
-        
- 
- 
-=======
+X, Y, count = get_cell_coordinates(img_path)
+
+make_density_map(X, Y, im_save_path)
+<< << << < HEAD
 
 
->>>>>>> be23f96ea8a56090c2f0731a5eb587a25ca3efc3
+== == == =
+
+
+>>>>>> > be23f96ea8a56090c2f0731a5eb587a25ca3efc3
+
+
 def json_writer():
     path = '../Dataset/Density/'
     paths = []
@@ -119,14 +122,15 @@ def json_writer():
 
     dots_path_store = '../'
 
-<<<<<<< HEAD
-    with open('../Density.json', 'w') as f:
-=======
-    with open('./Dots.json', 'w') as f:
->>>>>>> be23f96ea8a56090c2f0731a5eb587a25ca3efc3
-        json.dump(paths, f)
 
-    # return paths
+<< << << < HEAD
+with open('../Density.json', 'w') as f:
+== == == =
+with open('./Dots.json', 'w') as f:
+>>>>>> > be23f96ea8a56090c2f0731a5eb587a25ca3efc3
+json.dump(paths, f)
+
+# return paths
 
 
 if __name__ == '__main__':
