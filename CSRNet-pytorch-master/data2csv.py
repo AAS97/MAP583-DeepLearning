@@ -3,7 +3,6 @@ import os
 from PIL import Image
 import csv
 import numpy as np
-from density_preprocess import get_total_cell_counts
 import pandas as pd
 
 
@@ -18,11 +17,11 @@ density_paths = []
 
 for cell_img in cell_list:
     if(cell_img.endswith(".png")):
-        cell_paths.append(os.path.join('./Cells/', cell_img))
+        cell_paths.append(os.path.join('Cells/', cell_img))
         dot_paths.append(os.path.join(
-            './Dots/', cell_img.replace('cell', 'dots')))
+            'Dots/', cell_img.replace('cell', 'dots')))
         density_paths.append(os.path.join(
-            './Density/', cell_img.replace('cell', 'density')))
+            'Density/', cell_img.replace('cell', 'density').replace("png", "jpg")))
 
         count = 0
         img = Image.open(os.path.join('../Dataset/', dot_paths[-1]))
