@@ -142,9 +142,9 @@ def train(csv_path, model, criterion, optimizer, epoch):
         make_dataset.CountDataset(csv_path,
                                     shuffle=True,
                                     transform=transforms.Compose([
-                                        transforms.ToTensor(), transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                     std=[0.229, 0.224, 0.225],
-                                    ]),
+                                        transforms.ToTensor(),transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                                        std=[0.229, 0.224, 0.225]),
+                                    ]), 
                                     train=True,
                                     seen=model.seen,
                                     batch_size=args.batch_size,
@@ -210,7 +210,7 @@ def validate(csv_path, model, criterion):
                                     shuffle=False,
                                     transform=transforms.Compose([
                                         transforms.ToTensor(),transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                     std=[0.229, 0.224, 0.225],
+                                                        std=[0.229, 0.224, 0.225]),
                                     ]),  train=False),
         batch_size=args.batch_size)
 
