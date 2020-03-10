@@ -44,15 +44,15 @@ def main():
     best_prec1 = 1e6
 
     args = parser.parse_args()
-    args.original_lr = 1e-7
-    args.lr = 1e-7
+    args.original_lr = 1e-6
+    args.lr = 1e-6
     args.batch_size = 1
     args.momentum = 0.95
     args.decay = 5*1e-4
     args.start_epoch = 0
-    args.epochs = 100
-    args.steps = [-1, 20, 40, 60]
-    args.scales = [1, 0.1, 0.1, 0.1]
+    args.epochs = 60
+    args.steps = [-1, 10, 20, 30, 40, 50]
+    args.scales = [1, 1, 1, 1, 0.1, 0.1]
     args.workers = 4
     args.seed = time.time()
     args.print_freq = 30
@@ -61,6 +61,7 @@ def main():
     # with open(args.test_json, 'r') as outfile:
     #     val_list = json.load(outfile)
 
+    
     csv_train_path = args.train_csv
     csv_test_path = args.test_csv
 

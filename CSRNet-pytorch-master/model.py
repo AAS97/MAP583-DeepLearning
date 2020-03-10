@@ -16,7 +16,9 @@ class CSRNet(nn.Module):
         self.backend = make_layers(
             self.backend_feat, in_channels=512, dilation=True)
         self.output_layer = nn.Conv2d(64, 1, kernel_size=1)
-        self.count_layer = nn.Linear(1024, 1)
+        self.count_layer_1 = nn.Linear(1024, 512)
+        self.count_layer_2 = nn.linear(512, 64)
+        self.count_layer_3 = nn.linear(64, 1)
 
 
         # Initialize frontend layers with VGG
@@ -33,7 +35,9 @@ class CSRNet(nn.Module):
         x = self.backend(x)
         x = self.output_layer(x)
         x= x.view(-1, 32 * 32)
-        x = self.count_layer(x)
+        x = self.count_layer_1(x)
+        x = self.count_layer_2(x)
+        x = self.count_layer_3(x)
         return x
 
     def _initialize_weights(self):
