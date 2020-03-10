@@ -20,9 +20,8 @@ class DotsDataset:
 
     def __init__(self, csv_file, gt_downsample=0, shape=None, shuffle=True, transform=None,  train=False, seen=0, batch_size=1, num_workers=4):
         '''
-        img_root: the root path of img.
-        gt_dmap_root: the root path of ground-truth density-map.
-        gt_downsample: default is 0, denote that the output of deep-model is the same size as input image.
+        csv_file: csv file where paths to cell images an the associated dot images are stored
+
         '''
         self.file = pd.read_csv(csv_file)
         self.root = '../Dataset/'
@@ -49,11 +48,6 @@ class DotsDataset:
         cell_img = plt.imread(os.path.join(self.root, cell_img_path))
         dots_img = plt.imread(os.path.join(self.root, dots_img_path))
 
-        # cell_img_tensor = torch.tensor(cell_img, dtype=torch.float)
-        # dots_img_tensor = torch.tensor(dots_img, dtype=torch.float)
-
-        # print(gt_dmap_tensor.sum())
-
         if self.transform is not None:
             cell_img_tensor = self.transform(cell_img)
             dots_img_tensor = self.transform(dots_img)
@@ -69,10 +63,9 @@ class DensityDataset:
 
     def __init__(self, csv_file, gt_downsample=0, shape=None, shuffle=True, transform=None,  train=False, seen=0, batch_size=1, num_workers=4):
         '''
-        img_root: the root path of img.
-        gt_dmap_root: the root path of ground-truth density-map.
-        gt_downsample: default is 0, denote that the output of deep-model is the same size as input image.
+        csv_file: csv file where paths to cell images an the associated density images are stored
         '''
+
         self.file = pd.read_csv(csv_file)
         self.root = '../Dataset/'
         self.nSamples = len(self.file['counts'])
@@ -95,17 +88,9 @@ class DensityDataset:
         cell_img_path = csv_file.iloc[idx, 1]
         density_img_path = csv_file.iloc[idx, 3]
 
-        # print(f'cell {cell_img_path}, root : {self.root}')
-        # print(f'cell path : {os.path.join(self.root, cell_img_path)}')
         cell_img = Image.open(os.path.join(self.root, cell_img_path))
-        # print(f'density path : {os.path.join(self.root, density_img_path)}')
         density_img = Image.open(os.path.join(self.root, density_img_path))
         density_img = transforms.functional.to_grayscale(density_img)
-
-        # cell_img_tensor = torch.tensor(cell_img, dtype=torch.float)
-        # density_img_tensor = torch.tensor(density_img, dtype=torch.float)
-
-        # print(gt_dmap_tensor.sum())
 
         if self.transform is not None:
             cell_img_tensor = self.transform(cell_img)
@@ -147,10 +132,6 @@ class CountDataset:
         counts = csv_file.iloc[idx, 4]
 
         cell_img = plt.imread(os.path.join(self.root, cell_img_path))
-
-        # cell_img_tensor = torch.tensor(cell_img, dtype=torch.float)
-
-        # print(gt_dmap_tensor.sum())
 
         if self.transform is not None:
             cell_img_tensor = self.transform(cell_img)
