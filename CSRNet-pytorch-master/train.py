@@ -50,8 +50,8 @@ def main():
     args.momentum = 0.95
     args.decay = 5*1e-4
     args.start_epoch = 0
-    args.epochs = 60
-    args.steps = [-1, 10, 20, 30, 40, 50]
+    args.epochs = 200
+    args.steps = [-1, 10, 20, 30, 120, 160]
     args.scales = [1, 1, 1, 1, 0.1, 0.1]
     args.workers = 4
     args.seed = time.time()
