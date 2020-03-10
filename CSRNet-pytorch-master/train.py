@@ -46,7 +46,7 @@ def main():
     args = parser.parse_args()
     args.original_lr = 1e-6
     args.lr = 1e-6
-    args.batch_size = 1
+    args.batch_size = 5
     args.momentum = 0.95
     args.decay = 5*1e-4
     args.start_epoch = 0
@@ -60,7 +60,6 @@ def main():
     #     train_list = json.load(outfile)
     # with open(args.test_json, 'r') as outfile:
     #     val_list = json.load(outfile)
-
     
     csv_train_path = args.train_csv
     csv_test_path = args.test_csv
@@ -165,9 +164,11 @@ def train(csv_path, model, criterion, optimizer, epoch):
         img = Variable(img)
         # print(f'Img shape {img.shape}')
         output = model(img)
+        output = output.view(-1, args.batch_size)
         # print(f"output dim {output.shape} ")
         target = target.type(torch.FloatTensor).unsqueeze(0).to(device)
         target = Variable(target)
+        # print(f"output dim {target.shape} ")
 
         loss = criterion(output, target)
 
