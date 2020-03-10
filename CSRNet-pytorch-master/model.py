@@ -17,8 +17,8 @@ class CSRNet(nn.Module):
             self.backend_feat, in_channels=512, dilation=True)
         self.output_layer = nn.Conv2d(64, 1, kernel_size=1)
         self.count_layer_1 = nn.Linear(1024, 512)
-        self.count_layer_2 = nn.linear(512, 64)
-        self.count_layer_3 = nn.linear(64, 1)
+        self.count_layer_2 = nn.Linear(512, 64)
+        self.count_layer_3 = nn.Linear(64, 1)
 
 
         # Initialize frontend layers with VGG
