@@ -2,6 +2,7 @@ import torch.nn as nn
 import torch
 from torchvision import models
 from utils import save_net, load_net
+import torch.nn.functional as F
 
 
 class CSRNet(nn.Module):
@@ -20,7 +21,6 @@ class CSRNet(nn.Module):
         self.count_layer_2 = nn.Linear(512, 64)
         self.count_layer_3 = nn.Linear(64, 1)
 
-
         # Initialize frontend layers with VGG
         if not load_weights:
             mod = models.vgg16(pretrained=True)
@@ -35,8 +35,8 @@ class CSRNet(nn.Module):
         x = self.backend(x)
         x = self.output_layer(x)
         x= x.view(-1, 32 * 32)
-        x = self.count_layer_1(x)
-        x = self.count_layer_2(x)
+        x = F.relu(self.count_layer_1(x))
+        x = F.relu(self.count_layer_2(x))
         x = self.count_layer_3(x)
         return x
 
