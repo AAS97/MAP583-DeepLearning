@@ -17,6 +17,7 @@ class CSRNet(nn.Module):
         self.backend = make_layers(
             self.backend_feat, in_channels=512, dilation=True)
         self.output_layer = nn.Conv2d(64, 1, kernel_size=1)
+        #Adding dense layers
         self.count_layer_1 = nn.Linear(1024, 512)
         self.count_layer_2 = nn.Linear(512, 64)
         self.count_layer_3 = nn.Linear(64, 1)
@@ -35,8 +36,8 @@ class CSRNet(nn.Module):
         x = self.backend(x)
         x = self.output_layer(x)
         x= x.view(-1, 32 * 32)
-        x = F.relu(self.count_layer_1(x))
-        x = F.relu(self.count_layer_2(x))
+        x = F.relu(self.count_layer_1(x)) #Adding non linearity
+        x = F.relu(self.count_layer_2(x)) #Adding non linearity
         x = self.count_layer_3(x)
         return x
 

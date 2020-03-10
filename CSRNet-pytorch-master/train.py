@@ -4,7 +4,7 @@ import os
 import warnings
 
 from model import CSRNet
-import make_dataset
+from data_processing import make_dataset
 from utils import save_checkpoint
 from torchsummary import summary
 
@@ -17,7 +17,7 @@ import numpy as np
 import argparse
 import json
 import cv2
-import dataset
+# import dataset
 import time
 
 parser = argparse.ArgumentParser(description='PyTorch CSRNet')
@@ -50,7 +50,7 @@ def main():
     args.momentum = 0.95
     args.decay = 5*1e-4
     args.start_epoch = 0
-    args.epochs = 200
+    args.epochs = 20
     args.steps = [-1, 10, 20, 30, 120, 160]
     args.scales = [1, 1, 1, 1, 0.1, 0.1]
     args.workers = 4
